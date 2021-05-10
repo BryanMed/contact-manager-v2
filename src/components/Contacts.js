@@ -8,6 +8,38 @@ const Contacts = () => {
   const [currentId, setCurrentId] = useState("");
 
   const addOrEdit = async (contactObject) => {
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const onlyTextRegex = /^[a-z]+$/i;
+    const onlyNumberRegex = /^[\d]{10}$/;
+    const alphanumericalRegex = /^[a-z\d\-_\s]+$/i;
+
+    if (
+      !contactObject.firstName ||
+      !onlyTextRegex.test(contactObject.firstName)
+    ) {
+      alert("invalid first name, only text values");
+      return;
+    }
+    if (
+      !contactObject.lastName ||
+      !onlyTextRegex.test(contactObject.lastName)
+    ) {
+      alert("invalid last name, only text values");
+      return;
+    }
+    if (!alphanumericalRegex.test(contactObject.company)) {
+      alert("invalid company name, only alphanumerical values");
+      return;
+    }
+    if (!onlyNumberRegex.test(contactObject.phone)) {
+      alert("invalid number, write only 10 digits");
+      return;
+    }
+    if (!contactObject.email || !emailRegex.test(contactObject.email)) {
+      alert("invalid email, please enter a valid one");
+      return;
+    }
+
     if (currentId === "") {
       await db.collection("contacts").doc().set(contactObject);
       toast("New contact added", {

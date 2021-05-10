@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
+import { userSchema } from "../validations/UserValidation";
 
 const ContactsForm = (props) => {
   const initialStateValues = {
@@ -10,6 +11,21 @@ const ContactsForm = (props) => {
     email: "",
   };
   const [values, setValues] = useState(initialStateValues);
+
+  const [emailIsValid, setEmailIsValid] = useState(false);
+  const [emailValidMsg, setEmailValidMsg] = useState("");
+
+  const emailRegex = /\S+@\S+\.\S+/;
+
+  const validateEmail = (event) => {
+    if (emailRegex.test(event)) {
+      setEmailIsValid(true);
+      setEmailValidMsg("Your email looks good");
+    } else {
+      setEmailIsValid(false);
+      setEmailValidMsg("Please enter a valid email");
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -25,22 +41,6 @@ const ContactsForm = (props) => {
   const getLinkById = async (id) => {
     const doc = await db.collection("contacts").doc(id).get();
     setValues({ ...doc.data() });
-  };
-
-  //validation
-  const [emailIsValid, setEmailIsValid] = useState(false);
-  const [emailValidMsg, setEmailValidMsg] = useState("");
-  const emailRegex = /\S+@\S+\.\S+/;
-
-  const validateEmail = (event) => {
-    const email = event;
-    if (emailRegex.test(event)) {
-      setEmailIsValid(true);
-      setEmailValidMsg("Your email looks good");
-    } else {
-      setEmailIsValid(false);
-      setEmailValidMsg("Please enter a valid email");
-    }
   };
 
   useEffect(() => {
@@ -116,17 +116,11 @@ const ContactsForm = (props) => {
           className="form-control"
           placeholder="email"
           name="email"
-          onChange={(validateEmail, handleInputChange)}
+          onChange={handleInputChange}
           value={values.email}
         />
       </div>
-
-      <div className={`message ${emailIsValid ? "success" : "error"}`}>
-        {emailValidMsg}
-      </div>
-
       <br />
-
       <button className="btn btn-primary btn-block">
         {props.currentId === "" ? "Save new contact" : "Update contact"}
       </button>
