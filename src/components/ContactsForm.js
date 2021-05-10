@@ -60,6 +60,7 @@ const ContactsForm = (props) => {
       <div className="form-group input-group">
         <div className="row">
           <div className="col-sm">
+            <label htmlFor="firstName">First name</label>
             <input
               type="text"
               className="form-control"
@@ -70,6 +71,7 @@ const ContactsForm = (props) => {
             />
           </div>
           <div className="col-sm">
+            <label htmlFor="lastName">Last name</label>
             <input
               type="text"
               className="form-control"
@@ -83,6 +85,7 @@ const ContactsForm = (props) => {
       </div>
       <br />
       <div className="form-group">
+        <label htmlFor="company">Company</label>
         <input
           type="text"
           className="form-control"
@@ -94,6 +97,7 @@ const ContactsForm = (props) => {
       </div>
       <br />
       <div className="form-group">
+        <label htmlFor="phone">Phone number</label>
         <input
           type="text"
           className="form-control"
@@ -106,6 +110,7 @@ const ContactsForm = (props) => {
       <br />
 
       <div className="form-group">
+        <label htmlFor="email">Email</label>
         <input
           type="text"
           className="form-control"
